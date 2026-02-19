@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golden Beacon Mall</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/favicon-simple.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ══ LOADING ══════════════════════════════════════════════ -->
+<div id="loadingScreen" class="loading-screen">
+  <div class="loading-content">
+    <div class="loading-logo">Golden Beacon</div>
+    <div class="loading-sub">Shop Management System</div>
+    <div class="loading-bar"></div>
+  </div>
+</div>
+
+<!-- ══ LANDING PAGE ═════════════════════════════════════════ -->
+<div id="landingPage" class="landing-page" style="display:none;">
+  <div class="landing-content">
+    <div class="hero-section">
+      <div class="hero-badge">✦ Minecraft Server ✦</div>
+      <h1 class="hero-title">Golden Beacon Mall</h1>
+      <p class="hero-subtitle">Premium Shop Management System</p>
+      <p class="hero-description">
+        Claim your free shop instantly or request a paid shop for your business. 
+        Manage your storefront with ease in our organized mall system.
+      </p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary btn-large" onclick="showGetStarted()">🚀 Get Started</button>
+        <button class="btn btn-ghost btn-large" onclick="showExistingLogin()">Sign In</button>
+      </div>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🆓</div>
+        <h3>Free Shops</h3>
+        <p>Claim a free shop instantly — no approval needed. Perfect for getting started!</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💎</div>
+        <h3>Paid Shops</h3>
+        <p>Request premium shops with buy or rent options. Custom locations available.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Management</h3>
+        <p>Real-time dashboard to manage your shop, check availability, and track stats.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Secure System</h3>
+        <p>Protected accounts, admin approval for paid shops, and safe transactions.</p>
+      </div>
+    </div>
+    <div class="landing-footer"><p>Powered by Golden Beacon Mall System</p></div>
+  </div>
+</div>
+
+<!-- ══ AUTH ═════════════════════════════════════════════════ -->
+<div id="authContainer" class="auth-container" style="display:none;">
+  <div class="auth-content">
+    <button class="back-to-home" onclick="backToLanding()">← Back to Home</button>
+    <div class="auth-logo">
+      <h1>Golden Beacon</h1>
+      <p class="tagline">Mall Management System</p>
+    </div>
+
+    <!-- Login -->
+    <div id="loginForm" class="auth-form" style="display:none;">
+      <h2>Sign In</h2>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="loginUsername" placeholder="Your username" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Your password" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary" onclick="login()">Sign In</button>
+      <p class="auth-switch">
+        <a href="#" onclick="showForgotPassword()">Forgot password?</a>
+      </p>
+      <p class="auth-switch">New here? <a href="#" onclick="showRegister()">Create an account</a></p>
+    </div>
+
+    <!-- Register -->
+    <div id="registerForm" class="auth-form" style="display:none;">
+      <h2>Create Account</h2>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="registerUsername" placeholder="3–20 characters" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="registerPassword" placeholder="6+ characters" autocomplete="new-password">
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input type="password" id="registerPasswordConfirm" placeholder="Type password again" autocomplete="new-password">
+      </div>
+      
+      <!-- Rules Agreement -->
+      <div class="form-group" style="margin-top:20px;">
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; text-transform:none; font-size:0.9rem;">
+          <input type="checkbox" id="agreeToRules" style="width:auto; margin:0;">
+          <span>I agree to the <a href="#" onclick="showRulesModal(); return false;" style="color:var(--gold); text-decoration:underline;">Mall Rules</a></span>
+        </label>
+      </div>
+      
+      <button class="btn btn-primary" onclick="register()">Create Account</button>
+      <p class="auth-switch">Already have one? <a href="#" onclick="showLogin()">Sign in</a></p>
+    </div>
+
+    <!-- Forgot Password -->
+    <div id="forgotPasswordForm" class="auth-form" style="display:none;">
+      <h2>Reset Password</h2>
+      <p class="section-desc" style="margin-bottom:20px;">
+        To reset your password, you must verify your identity in-game with an admin on the Minecraft server.
+      </p>
+      <div class="form-group">
+        <label>Your Username</label>
+        <input type="text" id="resetUsername" placeholder="Account username">
+      </div>
+      <div class="form-group">
+        <label>Your Minecraft Username</label>
+        <input type="text" id="resetMinecraftUsername" placeholder="Minecraft username">
+      </div>
+      <div class="banner banner-warning" style="margin-bottom:16px;">
+        ⚠️ After submitting, join the Minecraft server and talk to an admin to verify your identity.
+      </div>
+      <button class="btn btn-primary" onclick="submitPasswordReset()">Submit Request</button>
+      <p class="auth-switch"><a href="#" onclick="showLogin()">Back to Sign In</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APP ══════════════════════════════════════════════════ -->
+<div id="dashboard" class="dashboard" style="display:none;">
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="navbar-brand">Golden Beacon <span>Mall</span></div>
+      <div class="navbar-menu">
+        <span class="navbar-user">Logged in as <strong id="navUsername"></strong></span>
+        <button id="discordBtn" class="btn btn-small btn-ghost" onclick="openDiscord()" style="display:none;">💬 Discord</button>
+        <button class="btn btn-small btn-ghost" onclick="showRulesModal()">📋 Rules</button>
+        <button id="adminNavBtn" class="btn btn-small btn-ghost" onclick="showAdminDashboard()" style="display:none;">⚙ Admin</button>
+        <button id="userNavBtn" class="btn btn-small btn-ghost" onclick="showUserDashboard()" style="display:none;">⌂ Dashboard</button>
+        <button class="btn btn-small btn-danger" onclick="logout()">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══ USER DASHBOARD ════════════════════════════════════ -->
+  <div id="userDashboard" class="container">
+    <div class="stats-grid">
+      <div class="stat-card stat-green">
+        <div class="stat-icon">🆓</div>
+        <div class="stat-value" id="statFreeTotal">—</div>
+        <div class="stat-label">Free Shops</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-value" id="statFreeAvail">—</div>
+        <div class="stat-label">Free Available</div>
+      </div>
+      <div class="stat-card stat-blue">
+        <div class="stat-icon">💎</div>
+        <div class="stat-value" id="statPaidTotal">—</div>
+        <div class="stat-label">Paid Shops</div>
+      </div>
+      <div class="stat-card stat-orange">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-value" id="statPaidAvail">—</div>
+        <div class="stat-label">Paid Available</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">My Shop</div>
+
+      <!-- No shop -->
+      <div id="noShopSection" class="card">
+        <div class="card-header">
+          <h3>You don't have a shop yet</h3>
+          <p>Choose between a free shop (instant) or a paid shop (requires approval)</p>
+        </div>
+        <div class="card-body">
+          <div class="action-buttons">
+            <button class="btn btn-success" onclick="openFreeShopModal()">🎁 &nbsp;Claim Free Shop</button>
+            <button class="btn btn-primary" onclick="openPaidShopModal()">💎 &nbsp;Request Paid Shop</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Has shop -->
+      <div id="hasShopSection" class="card" style="display:none;">
+        <div class="card-header">
+          <h3>Your Active Shop</h3>
+          <p>Claimed on <span id="myShopDate">—</span></p>
+        </div>
+        <div class="card-body">
+          <div class="shop-active">
+            <div class="shop-badge">✦ Active</div>
+            <div class="shop-number-big">#<span id="myShopNumber">—</span></div>
+            <div style="margin-top:12px; color:var(--text-muted); font-size:0.9rem;">
+              <div><strong id="myShopType">—</strong> · <span id="myShopOwnership">—</span></div>
+              <div style="margin-top:4px;">Minecraft: <strong id="myShopMC" style="color:var(--gold);">—</strong></div>
+            </div>
+            <button class="btn btn-danger btn-inline" style="margin-top:16px;" onclick="requestUnclaimShop()">Leave Shop</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending paid request -->
+      <div id="pendingRequestSection" class="card" style="display:none;">
+        <div class="card-header">
+          <h3>⏳ Paid Shop Request Pending</h3>
+          <p>Submitted on <span id="pendingDate">—</span></p>
+        </div>
+        <div class="card-body" style="text-align:center;">
+          <div class="banner banner-warning" style="display:inline-block; margin:0 auto 16px;"><strong>Awaiting Admin Approval</strong></div>
+          <p style="color:var(--text-muted); margin-bottom:0;">
+            Ownership type: <strong id="pendingOwnership">—</strong><br>An admin will review your request soon.
+          </p>
+        </div>
+      </div>
+
+      <!-- Pending unclaim request -->
+      <div id="pendingUnclaimSection" class="card" style="display:none;">
+        <div class="card-header">
+          <h3>⏳ Leave Request Pending</h3>
+          <p>Submitted on <span id="pendingUnclaimDate">—</span></p>
+        </div>
+        <div class="card-body" style="text-align:center;">
+          <div class="banner banner-warning" style="display:inline-block; margin:0 auto 16px;"><strong>Awaiting Admin Approval</strong></div>
+          <p style="color:var(--text-muted); margin-bottom:0;">You requested to leave Shop #<strong id="pendingUnclaimShopNum">—</strong><br>An admin will review your request soon.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rent Calculator -->
+    <div class="section">
+      <div class="section-title">💰 Rent Calculator</div>
+      <div class="card">
+        <div class="card-body">
+          <p class="section-desc">Compare the cost of buying vs renting a paid shop</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
+            <div class="calc-box">
+              <div class="calc-label">One-Time Purchase</div>
+              <div class="calc-value"><span id="buyPrice">—</span> $</div>
+            </div>
+            <div class="calc-box">
+              <div class="calc-label">Monthly Rent</div>
+              <div class="calc-value"><span id="rentMonthly">—</span> $/mo</div>
+            </div>
+          </div>
+          <table style="width:100%; font-size:0.9rem;">
+            <thead><tr style="border-bottom:1px solid var(--border);">
+              <th style="text-align:left; padding:10px 0; color:var(--text-muted); font-weight:600;">Duration</th>
+              <th style="text-align:right; padding:10px 0; color:var(--text-muted); font-weight:600;">Total Rent Cost</th>
+            </tr></thead>
+            <tbody>
+              <tr><td style="padding:8px 0;">3 months</td><td style="text-align:right; color:var(--gold);"><span id="rent3">—</span> $</td></tr>
+              <tr><td style="padding:8px 0;">6 months</td><td style="text-align:right; color:var(--gold);"><span id="rent6">—</span> $</td></tr>
+              <tr><td style="padding:8px 0;">12 months</td><td style="text-align:right; color:var(--gold);"><span id="rent12">—</span> $</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:20px; padding:16px; background:var(--dark); border-radius:var(--radius); border:1px solid var(--border);">
+            <strong style="color:var(--gold);">Break-Even Point:</strong> 
+            <span style="color:var(--text);">After <strong id="breakEven">—</strong> months, buying becomes cheaper than renting.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ADMIN DASHBOARD ═══════════════════════════════════ -->
+  <div id="adminDashboard" class="container" style="display:none;">
+    <div class="admin-page-header">
+      <div><h1>Admin Panel</h1><p>Manage shops, approve requests, ban users, and configure settings</p></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value" id="adminStatUsers">—</div>
+        <div class="stat-label">Total Users</div>
+      </div>
+      <div class="stat-card stat-orange">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-value" id="adminStatPending">—</div>
+        <div class="stat-label">Pending Requests</div>
+      </div>
+      <div class="stat-card stat-red">
+        <div class="stat-icon">🚫</div>
+        <div class="stat-value" id="adminStatUnclaims">—</div>
+        <div class="stat-label">Unclaim Requests</div>
+      </div>
+      <div class="stat-card stat-green">
+        <div class="stat-icon">🆓</div>
+        <div class="stat-value" id="adminStatFreeShops">—</div>
+        <div class="stat-label">Free Shops</div>
+      </div>
+      <div class="stat-card stat-blue">
+        <div class="stat-icon">💎</div>
+        <div class="stat-value" id="adminStatPaidShops">—</div>
+        <div class="stat-label">Paid Shops</div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="section">
+      <div class="section-title">⚙ Mall Settings</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Total Free Shops</label>
+              <input type="number" id="adminTotalFreeShops" min="0" max="500" placeholder="e.g. 30">
+            </div>
+            <div class="form-group">
+              <label>Total Paid Shops</label>
+              <input type="number" id="adminTotalPaidShops" min="0" max="500" placeholder="e.g. 20">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Paid Shop Buy Price ($)</label>
+              <input type="number" id="adminBuyPrice" min="0" placeholder="e.g. 5000">
+            </div>
+            <div class="form-group">
+              <label>Paid Shop Rent / Month ($)</label>
+              <input type="number" id="adminRentMonthly" min="0" placeholder="e.g. 1000">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Discord Invite Link</label>
+            <input type="text" id="adminDiscordLink" placeholder="https://discord.gg/yourserver" style="width:100%;">
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Users will see this link in the navbar</p>
+          </div>
+          <button class="btn btn-primary btn-inline" onclick="updateSettings()">💾 Save Settings</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Unclaim Requests (NEW) -->
+    <div class="section">
+      <div class="section-title">🚫 Leave Shop Requests</div>
+      <div class="card">
+        <div class="card-body" style="padding:0;">
+          <div class="table-container">
+            <table>
+              <thead><tr>
+                <th>Username</th>
+                <th>Shop</th>
+                <th>Minecraft</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr></thead>
+              <tbody id="unclaimRequestsTableBody">
+                <tr><td colspan="6" class="text-center">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shop Requests -->
+    <div class="section">
+      <div class="section-title">📋 Paid Shop Requests</div>
+      <div class="card">
+        <div class="card-body" style="padding:0;">
+          <div class="table-container">
+            <table>
+              <thead><tr>
+                <th>Username</th>
+                <th>Minecraft</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr></thead>
+              <tbody id="requestsTableBody">
+                <tr><td colspan="6" class="text-center">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Admin -->
+    <div class="section">
+      <div class="section-title">👑 Create Admin</div>
+      <div class="card">
+        <div class="card-body">
+          <p class="section-desc">Grant another user full admin access. Use with caution.</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Admin Username</label>
+              <input type="text" id="newAdminUsername" placeholder="3–20 characters">
+            </div>
+            <div class="form-group">
+              <label>Admin Password</label>
+              <input type="password" id="newAdminPassword" placeholder="6+ characters">
+            </div>
+          </div>
+          <button class="btn btn-warning btn-inline" onclick="createAdmin()">👑 Create Admin</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password Reset Requests -->
+    <div class="section">
+      <div class="section-title">🔑 Password Reset Requests</div>
+      <div class="card">
+        <div class="card-body" style="padding:0;">
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Minecraft Username</th>
+                  <th>Status</th>
+                  <th>Requested</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="passwordResetsTableBody">
+                <tr><td colspan="5" class="text-center">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Users -->
+    <div class="section">
+      <div class="section-title">👥 Users</div>
+      <div class="card">
+        <div class="card-body" style="padding:0;">
+          <div class="table-container">
+            <table>
+              <thead><tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Shop</th>
+                <th>Minecraft</th>
+                <th>Actions</th>
+              </tr></thead>
+              <tbody id="usersTableBody">
+                <tr><td colspan="6" class="text-center">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shops -->
+    <div class="section">
+      <div class="section-title">🏪 All Shops</div>
+      <div class="card">
+        <div class="card-body">
+          <button class="btn btn-danger btn-inline" onclick="resetAllShops()" style="margin-bottom:20px;">⚠ Reset All Shops</button>
+          <div class="table-container">
+            <table>
+              <thead><tr>
+                <th>Shop #</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Claimed By</th>
+                <th>Minecraft</th>
+                <th>Ownership</th>
+              </tr></thead>
+              <tbody id="shopsTableBody">
+                <tr><td colspan="6" class="text-center">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODALS ════════════════════════════════════════════════ -->
+
+<!-- Free Shop Modal (NEW - requires Minecraft username) -->
+<div id="freeShopModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Claim Free Shop</h2>
+      <button class="modal-close" onclick="closeFreeShopModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="section-desc">Enter your Minecraft username to claim a free shop instantly.</p>
+      <div class="form-group">
+        <label>Minecraft Username <span style="color:var(--red);">*</span></label>
+        <input type="text" id="freeShopMCUsername" placeholder="e.g. Steve123" style="width:100%;">
+      </div>
+      <button class="btn btn-success" onclick="submitFreeShopClaim()" style="margin-top:16px;">🎁 Claim Free Shop</button>
+    </div>
+  </div>
+</div>
+
+<!-- Paid Shop Request Modal -->
+<div id="paidShopModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Request Paid Shop</h2>
+      <button class="modal-close" onclick="closePaidShopModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="section-desc">Fill in your details. An admin will review your request.</p>
+      <div class="form-group">
+        <label>Minecraft Username <span style="color:var(--red);">*</span></label>
+        <input type="text" id="minecraftUsername" placeholder="e.g. Steve123" style="width:100%;">
+      </div>
+      <div class="form-group">
+        <label>Ownership Type <span style="color:var(--red);">*</span></label>
+        <div style="display:flex; gap:16px; margin-top:8px;">
+          <label class="radio-option">
+            <input type="radio" name="ownershipType" value="buy" checked>
+            <span>💰 Buy (One-Time Payment)</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="ownershipType" value="rent">
+            <span>📅 Rent (Monthly)</span>
+          </label>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="submitPaidRequest()" style="margin-top:16px;">Submit Request</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ban User Modal (NEW) -->
+<div id="banModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Ban User</h2>
+      <button class="modal-close" onclick="closeBanModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="section-desc">Ban <strong id="banUsername">—</strong> from the system.</p>
+      <div class="form-group">
+        <label>Ban Reason <span style="color:var(--red);">*</span></label>
+        <input type="text" id="banReason" placeholder="e.g. Breaking server rules" style="width:100%;">
+      </div>
+      <div class="form-group">
+        <label>Ban Until (optional)</label>
+        <input type="date" id="banUntil" style="width:100%;">
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Leave blank for permanent ban</p>
+      </div>
+      <button class="btn btn-danger" onclick="submitBan()" style="margin-top:16px;">🚫 Ban User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Password Reset Approval Modal -->
+<div id="passwordResetModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Reset Password</h2>
+      <button class="modal-close" onclick="closePasswordResetModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="section-desc">
+        Set a new password for <strong id="resetUserDisplay">—</strong>.<br>
+        Make sure you've verified them in Minecraft first!
+      </p>
+      <div class="form-group">
+        <label>New Password <span style="color:var(--red);">*</span></label>
+        <input type="text" id="newPasswordInput" placeholder="Enter new password (6+ chars)" style="width:100%;">
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">
+          ⚠️ Give this password to the user after approval
+        </p>
+      </div>
+      <button class="btn btn-success" onclick="approvePasswordReset()" style="margin-top:16px;">✅ Approve & Set Password</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RULES MODAL ═════════════════════════════════════════ -->
+<div id="rulesModal" class="modal" style="display:none;">
+  <div class="modal-content" style="max-width:700px;">
+    <div class="modal-header">
+      <h2>📋 Mall Rules</h2>
+      <button class="modal-close" onclick="closeRulesModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="section-desc">Please read and follow these rules while using Golden Beacon Mall.</p>
+      
+      <div id="rulesList" style="max-height:400px; overflow-y:auto; margin-top:20px;">
+        <!-- Rules loaded from rules.js -->
+      </div>
+      
+      <button class="btn btn-primary" onclick="closeRulesModal()" style="margin-top:20px;">I Understand</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="rules.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
